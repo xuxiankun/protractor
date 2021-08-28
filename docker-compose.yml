@@ -1,26 +1,22 @@
 version: "3.7"
-
 services:
   selenium:
     image: selenium/standalone-chrome-debug
     ports:
       - 4444:4444
       - 5900:5900
-  website:
+  e2e-tests:
     build:
+      dockerfile: Dockerfile
       context: .
-    ports:
-      - 81:80
-  unit-tests:
-    build:
-      dockerfile: rspec.dockerfile
-      context: .
+      args:
+        VARIANT: 16-buster
     environment:
-      SELENIUM_HOST: selenium
-      SELENIUM_PORT: 4444
+      SELENIUM_URL: http://selenium:4444/wd/hub
+    # can't be overrided in extended docker-compose.yml
+    # run it with docker-compose run --rm -entrypoint=protractor
+    #entrypoint: protractor
+    #command: 
+    #  - /app/conf.js
     volumes:
       - .:/app
-    entrypoint: rspec
-    command:
-      - --pattern
-      - /app/spec/unit/*_spec.rb

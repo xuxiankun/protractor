@@ -2,13 +2,10 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.191.1/containers/typescript-node
 {
 	"name": "Protractor & Node (latest LTS)",
-	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 12, 14, 16
-		"args": {
-			"VARIANT": "16"
-		}
-	},
+	"service": "e2e-tests", 
+	"dockerComposeFile": ["../docker-compose.yml", "docker-compose.extend.yml"],
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
 	// Add the IDs of extensions you want installed when the container is created.
